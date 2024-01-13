@@ -24,7 +24,9 @@ ${contactdetails}    xpath=//a[normalize-space()='Contact Details']
 ${country}        xpath=//div[5]//div[1]//div[2]//input[1]
 ${saveCD}         xpath=//button[normalize-space()='Save']
 ${applyleave}     xpath=//button[@title='Apply Leave']//*[name()='svg']
-${leavetype}      xpath=//i[@class='oxd-icon bi-caret-down-fill oxd-select-text--arrow']
+${leavetype}      xpath=//div[@class='oxd-select-text--after']
+${job}            xpath=//a[normalize-space()='Job']
+${jobspec}        xpath=//div[@class='input-container --disabled']
 
 *** Test Cases ***
 Login & Logout TC
@@ -55,10 +57,9 @@ Apply leave
     press keys    ${body}    ESC
     sleep    5
     wait until element is visible    ${applyleave}
-    sleep    2
     click element    ${applyleave}
     wait until location is    https://opensource-demo.orangehrmlive.com/web/index.php/leave/applyLeave
-    click element    ${leavetype}
+    sleep    2
     [Teardown]    close browser
 
 Update personal details
@@ -103,5 +104,25 @@ Update contact detail
     input text    ${country}    11
     sleep    2
     click element    ${saveCD}
+    sleep    2
+    [Teardown]    close browser
+
+Update job title
+    Open Browser    ${url}    ${browser}
+    Maximize Browser Window
+    wait until element is visible    ${comp_image}
+    input text    ${username}    ${usernameinput}
+    input text    ${password}    ${passwordinput}
+    click element    ${login_button}
+    sleep    2
+    wait until location is    ${dashboard}
+    press keys    ${body}    ESC
+    click element    ${myinfo}
+    sleep    2
+    wait until location is    https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewPersonalDetails/empNumber/7
+    click element    ${job}
+    sleep    2
+    wait until location is    https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewJobDetails/empNumber/7
+    Wait Until Element Is Visible    ${jobspec}
     sleep    2
     [Teardown]    close browser
